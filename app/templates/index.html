@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f7f8">
+  <title>Smart Image Compressor</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="/" aria-label="Smart Image Compressor home">
+      <span class="brand-mark" aria-hidden="true">S</span>
+      <span>Smart Image Compressor</span>
+    </a>
+    <span class="privacy-note"><span class="privacy-dot"></span> Files stay on this device</span>
+  </header>
+
+  <main class="page-shell">
+    <section class="intro" aria-labelledby="page-title">
+      <p class="eyebrow">PRIVATE BY DESIGN</p>
+      <h1 id="page-title">Smaller images.<br><span>Same big ideas.</span></h1>
+      <p class="intro-copy">Compress and resize your images securely, right here on your computer.</p>
+    </section>
+
+    <section class="workspace-card" aria-label="Image compressor">
+      <div class="section-heading">
+        <div>
+          <h2>Add your images</h2>
+          <p id="upload-guidance">JPEG, PNG, or WebP · Up to 10 MB each · 10 images at a time</p>
+        </div>
+        <button id="clear-selection" class="button button-quiet" type="button" disabled>Clear all</button>
+      </div>
+      <div id="drop-zone" class="drop-zone" role="button" tabindex="0" aria-label="Choose images or drag them here">
+        <input id="file-input" type="file" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp" multiple hidden>
+        <span class="upload-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M12 16V4m0 0L7.5 8.5M12 4l4.5 4.5M5 14v4.5A1.5 1.5 0 0 0 6.5 20h11a1.5 1.5 0 0 0 1.5-1.5V14" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+        <strong>Drop images here</strong>
+        <span class="drop-subtitle">or <span class="text-link">browse files</span> on your computer</span>
+      </div>
+      <div id="selection" class="selection-list" aria-live="polite"></div>
+      <p id="upload-message" class="message" role="status" aria-live="polite"></p>
+
+      <div class="settings-heading">
+        <div>
+          <h2>Compression settings</h2>
+          <p>Choose the format and size that work for you.</p>
+        </div>
+      </div>
+      <div class="settings-grid">
+        <div class="setting">
+          <label for="output-format">Output format</label>
+          <select id="output-format">
+            <option value="webp">WebP — smaller files</option>
+            <option value="jpeg">JPEG — widely compatible</option>
+            <option value="png">PNG — keep transparency</option>
+          </select>
+        </div>
+        <div class="setting quality-setting">
+          <div class="label-line">
+            <label for="quality">Quality</label>
+            <output id="quality-value" for="quality">80</output>
+          </div>
+          <input id="quality" type="range" min="10" max="100" value="80">
+          <div class="range-labels"><span>Smaller file</span><span>Higher quality</span></div>
+        </div>
+        <div class="setting resize-setting">
+          <label for="resize-mode">Image dimensions</label>
+          <select id="resize-mode">
+            <option value="original">Keep original dimensions</option>
+            <option value="custom">Fit within custom dimensions</option>
+            <option value="max">Set maximum dimensions</option>
+          </select>
+          <div id="dimension-fields" class="dimension-fields" hidden>
+            <label class="sr-only" for="resize-width">Width in pixels</label>
+            <input id="resize-width" type="number" min="1" max="12000" inputmode="numeric" placeholder="Width">
+            <span aria-hidden="true">×</span>
+            <label class="sr-only" for="resize-height">Height in pixels</label>
+            <input id="resize-height" type="number" min="1" max="12000" inputmode="numeric" placeholder="Height">
+            <span class="sr-only">Leave either dimension blank to calculate it automatically.</span>
+          </div>
+        </div>
+      </div>
+      <label id="lossless-control" class="checkbox-control" hidden>
+        <input id="webp-lossless" type="checkbox">
+        <span>Use lossless WebP</span>
+      </label>
+      <label class="checkbox-control">
+        <input id="allow-enlarge" type="checkbox">
+        <span>Allow enlarging images smaller than the selected dimensions</span>
+      </label>
+      <p id="format-note" class="format-note">WebP uses lossy compression at the selected quality. Transparency is preserved.</p>
+      <p id="resize-note" class="resize-note">Images will not be enlarged unless you explicitly choose to enable enlargement.</p>
+
+      <div class="action-row">
+        <button id="compress-button" class="button button-primary" type="button" disabled>
+          <span>Compress images</span><span aria-hidden="true">→</span>
+        </button>
+        <span class="local-processing"><span class="lock-icon" aria-hidden="true">▣</span> Processed locally on your device</span>
+      </div>
+      <div id="progress-area" class="progress-area" hidden>
+        <div class="progress-copy"><span id="progress-label">Preparing images…</span><span id="progress-percent">0%</span></div>
+        <progress id="progress-bar" max="100" value="0">0%</progress>
+      </div>
+    </section>
+
+    <section id="results-section" class="results-section" aria-labelledby="results-title" hidden>
+      <div class="results-heading">
+        <div>
+          <p class="eyebrow">YOUR RESULTS</p>
+          <h2 id="results-title">Before &amp; after</h2>
+          <p>Compare your images and download the versions you need.</p>
+        </div>
+        <button id="download-all" class="button button-secondary" type="button">Download all <span aria-hidden="true">↓</span></button>
+      </div>
+      <p id="results-message" class="message" role="status" aria-live="polite"></p>
+      <div id="results-list" class="results-list"></div>
+      <button id="clear-results" class="button button-quiet clear-results" type="button">Clear all results</button>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span>Smart Image Compressor</span>
+    <span>Your images never leave your computer.</span>
+  </footer>
+  <script src="/static/js/app.js" defer></script>
+</body>
+</html>
