@@ -14,7 +14,7 @@ A private, local-first web app for compressing, resizing, comparing, and downloa
 
 ## Technology and requirements
 
-- Python 3.11 (64-bit) on Windows 11.
+- Python 3.11 
 - FastAPI 0.115.12, Uvicorn 0.34.0, Pillow 11.1.0, and python-multipart 0.0.20.
 - Pytest 8.3.5 and HTTPX 0.28.1 for tests.
 - Modern browser with JavaScript enabled.
